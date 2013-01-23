@@ -10,5 +10,4 @@
 
 (load-relative "auto-compilation")
 
-(load-relative-compiled "utils")
 (load-relative-compiled "pattern-matching")

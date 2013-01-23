@@ -103,9 +103,9 @@
                                   count)
                       ((pair _ _) 'pair)
                       ((null) 'null)
-                      ((boolean :as bool) bool)
-                      ((number :as num) num))))))
-
+                      ((boolean _ :as bool) bool)
+                      ((number _ :as num) num))))))
+#;
  (define-each-test
    (same-speed test-pattern my-test-pattern (cons (cons 1 2) 3) 100000000)
    (same-speed test-pattern my-test-pattern (cons 4 3) 100000000)

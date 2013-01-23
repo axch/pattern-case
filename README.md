@@ -49,6 +49,9 @@ Pattern Case revolves around the `case*` macro and its variant
 `define-case*`, as well as provided [matcher
 procedures](#matcher-procedures) and facilities for adding your own.
 
+Case*
+-----
+
 The `case*` macro has the following syntax:
 
 ```
@@ -116,6 +119,25 @@ variable), and the match will proceed using the pattern without the
 `:as` token or that variable.  In other words, if the match succeeds,
 the whole object will be available to the clause body in the variable
 that followed the `:as` token.
+
+TODO For example, foo expands into bar (mention procedure integration)
+
+Define-case*
+------------
+
+The `define-case*` macro defines a unary procedure that operates by
+`case*` on its one argument.  To wit,
+
+```scheme
+(define-case* <name>
+  <clause> ...)
+```
+becomes
+```scheme
+(define (<name> thing)
+  (case* thing
+    <clause> ...))
+```
 
 Matcher Procedures
 ==================

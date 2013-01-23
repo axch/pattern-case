@@ -142,24 +142,59 @@ becomes
 Matcher Procedures
 ==================
 
-A matcher procedure must accept three arguments: the object to match,
-a procedure to call if it matches, and a procedure to call if it does
-not.  The meaning of matching depends on the particular matcher
-procedure; in the case of `pair` that would be being a pair, and in
-the case of `null` that would be being the empty list.  If the object
-indeed matches, the matcher procedure must call its second argument
-with the match data.  What the match data is is also defined by the
+The provided matcher procedures are:
+
+- `pair` matches Scheme pairs and destructures them into their car and cdr
+- `null` matches the empty list and destructures it into nothing
+- `boolean` matches Scheme booleans and "destructures" them into themselves
+- `number` matches Scheme numbers and "destructures" them into themselves
+
+You are free and encouraged to write your own.  In fact, that was the
+point.  A matcher procedure must accept three arguments: the object to
+match, a procedure to call if it matches, and a procedure to call if
+it does not.  The meaning of matching depends on the particular
+matcher procedure; in the case of `pair` that would be being a pair,
+and in the case of `null` that would be being the empty list.  If the
+object indeed matches, the matcher procedure must call its second
+argument with the results of destructuring, as separate arguments.
+What destructuring a matcher performs is also defined by the
 particular matcher procedure -- in the case of `pair`, that would be
-the car and the cdr of the pair, and in the case of `null`, there is
-no match data (so the second argument to `null` must accept no
+the car and the cdr of the pair, and in the case of `null`, there are
+no destructing results (so the second argument to `null` must accept no
 arguments).  If the object does not match, the matcher procedure must
 call its third argument with no arguments.
 
-The provided matcher procedures are:
+For example, `pair` could have been defined with
+```scheme
+(define-integrable (pair thing win lose)
+  (if (pair? thing)
+      (win (car thing) (cdr thing))
+      (lose)))
+```
 
-  TODO document provided matcher procedures
+Defining matcher procedures with `define-integrable` where possible is
+recommended for performance (as is appropriate application of
+`(declare (integrate-external ...))` in files that use your custom
+matcher procedures).
 
-You are free and encouraged to write your own.  Defining them with
-`define-integrable` where possible is recommended for performance (as
-is appropriate application of `(declare (integrate-external ...))` in
-files that use your custom matcher procedures).
+The thing that makes Pattern Case Schemely is that the matcher
+procedure slot in the `case*` macro is evaluated, so you can compute
+matchers on the fly.  To repeat the example from the motivational
+essay, you could make a matcher that matches hash tables by looking a
+given key up in them (with the destructuring result being the datum
+associated with that key):
+
+```scheme
+(define (has-key key)
+  (lambda (table win lose)
+    (hash-table/lookup table key win lose)))
+```
+
+Then you could use such matchers in any `case*` expressions you
+wanted, choosing keys on the fly:
+```scheme
+(case* some-table
+  (((has-key "foo") d) ...) ; The datum under "foo" is now in d
+  (((has-key "bar") d) ...) ; There was no "foo"; the datum under "bar" is now in d
+  ...) ; There was neither "foo" nor "bar"
+```

@@ -198,3 +198,18 @@ wanted, choosing keys on the fly:
   (((has-key "bar") d) ...) ; There was no "foo"; the datum under "bar" is now in d
   ...) ; There was neither "foo" nor "bar"
 ```
+
+`(define-algebraic-matcher name predicate accessor ...)` For the
+fairly common case when your matcher procedure tests the object with
+an existing predicate and destructures it by applying several existing
+accessors.  This defines a matcher procedure named `name` that tests
+with `predicate` and produces destructuring results by applying each
+of the `accessor`s.  `pair` could have been defined with
+`(define-algebraic-matcher pair pair? car cdr)`.  There can be zero
+accessors; `null` could have been defined with
+`(define-algebraic-matcher null null?)`.
+
+`(id-project thing)` Returns `thing`.  Useful as the "accessor" for a
+matcher (like `boolean`) that returns the object being matched itself,
+without actually destructuring it.  `boolean` could have been defined
+with `(define-algebraic-matcher boolean boolean? id-project)`.

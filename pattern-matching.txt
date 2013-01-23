@@ -5,7 +5,7 @@
 
 Introduction
 
-Chris Hanson told me once
+Chris Hanson told me once (I paraphrase)
 
   If you return a boolean from your function, the only thing the
   client can do with it is dispatch.  Why not accept the two ways the
@@ -15,7 +15,8 @@ Chris Hanson told me once
 It occurred to me recently that this philosophy can be applied
 fruitfully to the basic type testers of the programming language.
 After all, what can one do with the result of pair? except branch?
-And what does one always want from the pair in the "yes" branch?
+And what does one always want from the pair in the "yes" branch, but
+its car and its cdr?
 
 
 Linguistics
@@ -138,11 +139,12 @@ said pattern header).
 
 In comparison, I don't think that Haskell allows its pattern language
 to be extended at all, except with the definition of new algebraic
-data types; and I think the Racket match macro can only be extended by
-defining "pattern macros" -- new patterns that the matcher compiler
-expands into combinations of uses of old patterns.  Such a facility
-could also be provided in this case.  That makes the current proposal
-much more in line with the Scheme spirit.
+data types (but see comparison to Haskell view patterns, below); and I
+think the Racket match macro can only be extended by defining "pattern
+macros" -- new patterns that the matcher compiler expands into
+combinations of uses of old patterns.  Such a facility could also be
+provided in this case.  That makes the current proposal much more in
+line with the Scheme spirit.
 
 
 Performance
@@ -163,14 +165,14 @@ problem is fixable.
 In the context of adding this feature to an existing Scheme system, I
 can imagine two (related) ways to fix its performace.  The MIT Scheme
 compiler, to take an example I am familiar with, has a concept of
-"usual integrations", which are primitive procedures like + that the
-compiler knows how to inline at the sub-Scheme level, and not incur
-procedure-call overhead for.  One could then teach MIT Scheme to treat
-pair?* as usual integration, and have it then turn
-(pair?* thing (lambda (a d) ...) (lambda () ...)) into
-(if (pair? thing) (let ((a (car thing)) (d (cdr thing))) ...) ...).
+"integrations", which are procedures like + that the compiler knows
+how to inline, sometimes at the sub-Scheme level, and not incur
+procedure-call overhead for.  One could then teach MIT Scheme to
+integrate pair?*, and have it then turn
+  (pair?* thing (lambda (a d) ...) (lambda () ...)) into
+  (if (pair? thing) (let ((a (car thing)) (d (cdr thing))) ...) ...).
 This can be achieved, even at the user level, with liberal use of
-define-integrable and (declare (integrate-externals ...)).
+define-integrable and (declare (integrate-external ...)).
 
 If fact, the pair?*-style primitives could even offer a performance
 advantage over their pair?-style counterparts.  This is because
@@ -193,7 +195,7 @@ can inline to look like
      ...),
 where unsafe-car and unsafe-cdr do not do safety checks.  This is an
 example of the benefits of not separating the boolean from its
-meaning.  See also issue 6 below.
+meaning.  See also Issue 6 below.
 
 Even if one does not incorporate pair?* and company into the set of
 primitives the compiler knows about, the same effect can probably be
@@ -229,6 +231,19 @@ namespace as everything else, and being willing to accept new ones,
 even constructed on the fly.  I have not, however, checked this claim
 thoroughly.
 
+The Haskell community has come up with a generalization of the
+standard pattern matching mechanism called "view patterns", where the
+pattern matcher evaluates an expression to compute a function which is
+applied to the object being matched to produce a "view", which is then
+recursively matched normally.  case* can be viewed as an
+implementation of view patterns in Scheme, whose backing destructuring
+mechanism is the lambda-list.  One difference: lambda application in
+Scheme cannot usefully fail, so in case* the onus for accounting for
+the possibility of pattern failure is moved into the view function,
+slightly complicating its interface.  In Haskell, on the other hand,
+the backing pattern matching mechanism knows how to fail and try
+another clause, so the view function can be just a function.
+
 Racket has a match macro that supports a significantly more elaborate
 pattern language than this case*; but it pays the price in being
 substantially harder to extend with user-specified matchers.  I do not
@@ -236,11 +251,11 @@ know how easy or difficult it would be to compile Racket match
 emulating case* into code as good as can be had from using case*
 directly.  I also do not believe that the matchers that fit into
 Racket match are useful outside it, whereas one could certainly call
-pair?* by itself to good effect.  My feeling is that this case* and
-Racket match serve two distinct purposes, and as such can happily
-coexist in the same programming language.  It might be nice if they
-were compatible and/or interoperable; see Issue 8 below.
-    
+pair?* by itself to good effect.  My feeling is that case* and Racket
+match serve two distinct purposes, and as such can happily coexist in
+the same programming language.  It might be nice if they were
+compatible and/or interoperable; see Issue 8 below.
+
 Sussman teaches a pattern matching system in his Adventures class.
 This system is designed with an eye toward fitting into a rule-based
 term-rewriting system, which in turn is designed with an eye toward
@@ -284,7 +299,8 @@ would do completely the wrong thing; namely, the first list?* above
 would error out.  The only way I can think of to have the above
 example do the right thing would be to define list?* as a "pattern
 macro" that, in the context of being a case* pattern would expand into
-a appropriate pile of pair?*s.  Then the above becomes equivalent to
+a appropriate pile of pair?*s with a null?* at the end.  Then the
+above becomes equivalent to
 
 (case* '(1 2 3)
  ((pair?* x (pair?* y (null?*))) ...)
@@ -324,7 +340,7 @@ destructurers foo?*.  Especially the latter is probably cumbersome
 enough to impede the fluid use of this facility.  In order to make it
 Schemey (and allow convenient extension), it seems necessary to make
 the destructurers live in the same name space as everything else; but
-that means I would need to introduce a naming convention to keep them
+that means one would need to introduce a naming convention to keep them
 from clashing with, for example, the constructors, or the traditional
 type testers.  Any suggestion on what that naming convention should
 be?  For example, Haskell spells pair?* as a right-associative infix :

@@ -1,6 +1,6 @@
 ;;; This file is part of Pattern Case, a Schemely pattern matching
 ;;; case facility in MIT Scheme.
-;;; Copyright 2011 Alexey Radul.
+;;; Copyright 2010-2011 Alexey Radul.
 ;;;
 ;;; Pattern Case is free software; you can redistribute it and/or
 ;;; modify it under the terms of the GNU Affero General Public License

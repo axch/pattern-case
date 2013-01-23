@@ -1,4 +1,4 @@
-(load-relative "../../testing/load")
+(load-relative "../testing/load")
 
 (for-each
  (lambda (file)

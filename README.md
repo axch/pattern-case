@@ -45,8 +45,8 @@ follows:
 Syntax
 ======
 
-Pattern Case revolves around the `case*` macro and its variant
-`define-case*`, as well as provided [matcher
+Pattern Case revolves around the `case*` macro and its variants
+`lambda-case*` and `define-case*`, as well as provided [matcher
 procedures](#matcher-procedures) and facilities for adding your own.
 
 Case*
@@ -122,6 +122,22 @@ that followed the `:as` token.
 
 TODO For example, foo expands into bar (mention procedure integration)
 
+Lambda-case*
+------------
+
+The `lambda-case*` macro returns an anonymous unary procedure that
+operates by `case*` on its one argument.  To wit,
+
+```scheme
+(lambda-case* <clause> ...)
+```
+becomes
+```scheme
+(lambda (thing)
+  (case* thing
+    <clause ...))
+```
+
 Define-case*
 ------------
 
@@ -137,6 +153,10 @@ becomes
 (define (<name> thing)
   (case* thing
     <clause> ...))
+```
+which is the same as
+```scheme
+(define <name> (lambda-case* <clause> ...))
 ```
 
 Matcher Procedures

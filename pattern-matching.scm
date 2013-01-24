@@ -22,9 +22,11 @@
 ;;; - destructuring-bind, bind in Common Lisp
 ;;; - Clojure pattern matching
 ;;; - ruby case
-;;; TODO Implement pattern guards?  View patterns?
+;;; TODO Implement pattern guards (issue 3)?
+;;; TODO Is there a meaningful place for view patterns over this?
 ;;; TODO Implement known-length list patterns (issue 1)
-;;; TODO Document define-algebraic-matcher
+
+;;;; The case* macro
 
 (define-syntax case*
   (er-macro-transformer
@@ -104,19 +106,7 @@
                      (declare (integrate-operator ,lose-name))
                      ,(parse-clause (car clauses) lose-name))))))))))
 
-(define-syntax define-algebraic-matcher
-  (syntax-rules ()
-    ((_ matcher predicate accessor ...)
-     (define-integrable (matcher thing win lose)
-       (if (predicate thing)
-           (win (accessor thing) ...)
-           (lose))))))
-
-(define-integrable (id-project x) x)
-(define-algebraic-matcher pair pair? car cdr)
-(define-algebraic-matcher null null?)
-(define-algebraic-matcher boolean boolean? id-project)
-(define-algebraic-matcher number number? id-project)
+;;;; Variants
 
 (define-syntax lambda-case*
   ;; This is not a syntax-rules macro because case* will make some of
@@ -144,3 +134,19 @@
            ,@clauses))))))
 
 ;; TODO good error messages if syntax is wrong; define all needed matchers
+
+;;;; Matcher procedures
+
+(define-syntax define-algebraic-matcher
+  (syntax-rules ()
+    ((_ matcher predicate accessor ...)
+     (define-integrable (matcher thing win lose)
+       (if (predicate thing)
+           (win (accessor thing) ...)
+           (lose))))))
+
+(define-integrable (id-project x) x)
+(define-algebraic-matcher pair pair? car cdr)
+(define-algebraic-matcher null null?)
+(define-algebraic-matcher boolean boolean? id-project)
+(define-algebraic-matcher number number? id-project)

@@ -222,7 +222,7 @@ becomes
   (case* thing
     <clause> ...))
 ```
-which is the same as
+which is functionally the same as
 ```scheme
 (define <name> (lambda-case* <clause> ...))
 ```

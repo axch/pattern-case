@@ -17,7 +17,7 @@
 ;;; <http://www.gnu.org/licenses/>.
 
 (declare (usual-integrations))
-(declare (integrate-external "../pattern-matching"))
+(declare (integrate-external "../pattern-case"))
 
 (define (nested-patterns)
  (case* (cons (cons 1 2) 3)

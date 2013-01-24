@@ -31,4 +31,4 @@
 
 (load-relative "auto-compilation")
 
-(load-relative-compiled "pattern-matching")
+(load-relative-compiled "pattern-case")

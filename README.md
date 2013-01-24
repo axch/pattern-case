@@ -39,9 +39,9 @@ follows:
 
 - As patterns are implemented, with the syntax `(pair a d :as foo)`.
 
-- Be sure to `(declare (integrate-external "pattern-matching"))` in
-  any file that uses this, or you will start consing closures like mad
-  and probably suffer around 5x-10x slowdown in `case*` forms.
+- Be sure to `(declare (integrate-external "pattern-case"))` in any
+  file that uses this, or you will start consing closures like mad and
+  probably suffer around 5x-10x slowdown in `case*` forms.
 
 Syntax
 ======

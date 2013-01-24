@@ -21,5 +21,5 @@
 (for-each
  (lambda (file)
    (load-relative-compiled file))
- '("pattern-matching-test"
+ '("pattern-case-test"
    "integration-test"))

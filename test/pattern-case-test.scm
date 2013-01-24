@@ -18,7 +18,7 @@
 
 (declare (usual-integrations))
 
-(declare (integrate-external "../pattern-matching"))
+(declare (integrate-external "../pattern-case"))
 
 (define (test-pattern thing)
   (case* thing
@@ -101,7 +101,7 @@
       )))
 
 (in-test-group
- pattern-matching
+ pattern-case
 
  (define-each-check
    (equal? 6 (test-pattern (cons (cons 1 2) 3)))

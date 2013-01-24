@@ -95,7 +95,7 @@
   (check (equal? (f1 input) (f2 input)))
   (receive (run-time1 gc-time1 real-time1) (time-repeated f1 input repeat)
     (receive (run-time2 gc-time2 real-time2) (time-repeated f2 input repeat)
-      (pp (list run-time1 gc-time1 real-time1 run-time2 gc-time2 real-time2))
+      ;(pp (list run-time1 gc-time1 real-time1 run-time2 gc-time2 real-time2))
       (check (< (relative-difference run-time1 run-time2) .2))
       (check (< (relative-difference gc-time1 gc-time2) .2))
       )))
@@ -125,7 +125,7 @@
                       ((boolean _ :as bool) bool)
                       ((number _ :as num) num))))))
 
- (let ((repeat-count 100000000))
+ (let ((repeat-count 10000000))
   (define-each-test
     (same-speed test-pattern my-test-pattern (cons (cons 1 2) 3) repeat-count)
     (same-speed test-pattern my-test-pattern (cons 4 3) repeat-count)

@@ -31,9 +31,9 @@ follows:
   negative information, I did not take that measure to improve its
   precision.
 
-- Naming convention: matchers are named after the type name, with
-  no typographic markers.  What is called `pair?*' in the text is
-  called `pair' here.
+- Naming convention: matchers are named after the type name, with no
+  typographic markers.  What is called `pair?*' in the text for
+  distinctiveness is called `pair' here for typography.
 
 - List matchers, segment variables, and guards are not implemented.
 

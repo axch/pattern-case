@@ -32,16 +32,32 @@ follows:
   precision.
 
 - Naming convention: matchers are named after the type name, with no
-  typographic markers.  What is called `pair?*' in the text for
-  distinctiveness is called `pair' here for typography.
+  typographic markers.  What is called `pair?*` in the text for
+  distinctiveness is called `pair` here for typography.
 
 - List matchers, segment variables, and guards are not implemented.
 
 - As patterns are implemented, with the syntax `(pair a d :as foo)`.
 
-- Be sure to `(declare (integrate-external "pattern-case"))` in any
-  file that uses this, or you will start consing closures like mad and
-  probably suffer around 5x-10x slowdown in `case*` forms.
+- Compiler support is obtained though integration declarations.
+
+Installation
+============
+
+Just `git clone` this repository,
+```scheme
+(load "pattern-case/load")
+```
+and hack away.  Be sure to
+```scheme
+(declare (integrate-external "path/to/pattern-case"))
+```
+in any file that uses this, or you will be consing closures like mad
+and probably suffer around 5x-10x slowdown in `case*` forms.
+
+If you want to develop Pattern Case, you will want to also get the
+unit test framework that Pattern Case uses.  Type `git submodule
+init` and `git submodule update`.
 
 Syntax
 ======

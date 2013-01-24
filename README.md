@@ -117,15 +117,8 @@ If you want to develop Pattern Case, you will want to also get the
 unit test framework that Pattern Case uses.  Type `git submodule
 init` and `git submodule update`.
 
-Syntax
-======
-
-Pattern Case revolves around the `case*` macro and its variants
-`lambda-case*` and `define-case*`, as well as provided [matcher
-procedures](#matcher-procedures) and facilities for adding your own.
-
 Case*
------
+=====
 
 The `case*` macro has the following syntax:
 

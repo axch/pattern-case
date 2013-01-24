@@ -80,9 +80,10 @@
   (timings-of
    (lambda ()
      (let loop ((count repeat))
-       (unless (= 0 count)
-         (f input)
-         (loop (- count 1)))))))
+       (if (not (= 0 count))
+           (begin
+             (f input)
+             (loop (- count 1))))))))
 
 (define (same-speed f1 f2 input repeat)
   (define (relative-difference x y)
@@ -123,7 +124,7 @@
                       ((null) 'null)
                       ((boolean _ :as bool) bool)
                       ((number _ :as num) num))))))
-#;
+
  (define-each-test
    (same-speed test-pattern my-test-pattern (cons (cons 1 2) 3) 100000000)
    (same-speed test-pattern my-test-pattern (cons 4 3) 100000000)

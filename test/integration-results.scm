@@ -17,7 +17,7 @@
 ;;; <http://www.gnu.org/licenses/>.
 
 (begin
-  (define (example-with-pairs)
+  (define (nested-patterns)
     (let ((expr-17 (cons (cons 1 2) 3)))
       (cond ((pair? expr-17)
              (let ((part-19 (car expr-17)) (dd (cdr expr-17)))
@@ -31,7 +31,7 @@
              (let ((a (car expr-17)) (d (cdr expr-17)))
                (&+ a d))))))
 
-  (define (example-with-ignores-and-as-patterns)
+  (define (ignores-and-as-patterns thing)
     (let ((expr-21 thing))
       (if (pair? expr-21)
           (begin
@@ -44,5 +44,31 @@
                   (begin (car subthing) ; Ditto
                          (let ((d (cdr subthing))) (&+ d (car subthing))))
                   thing)))
-          thing))))
+          thing)))
+
+  (define (arrow-clause thing)
+    (let ((expr-26 thing))
+      (cond ((null? expr-26) 'null)
+            ((pair? expr-26)
+             (let ((a (car expr-26)) (d (cdr expr-26)))
+               (&* a d)))
+            (else 'other))))
+
+  (define (evaluate-dispatchee-just-once count)
+    (let ((expr-30 (begin (set! count (1+ count)) count)))
+      (cond ((pair? expr-30) (cdr expr-30) (car expr-30) 'pair)
+            ((null? expr-30) 'null)
+            (else
+             (let ((bool expr-30))
+               (if (boolean? expr-30)
+                   bool
+                   (let ((num expr-30))
+                     (if (let ((operand expr-30))
+                           ;; This is what number? looks like underneath
+                           (or (object-type? 26 operand)
+                               (object-type? 14 operand)
+                               (object-type? 58 operand)
+                               (object-type? 6 operand)
+                               (object-type? 60 operand)))
+                         num)))))))))
 

@@ -19,12 +19,26 @@
 (declare (usual-integrations))
 (declare (integrate-external "../pattern-matching"))
 
-(define (example-with-pairs)
+(define (nested-patterns)
  (case* (cons (cons 1 2) 3)
    ((pair (pair a d) dd) (+ a d dd))
    ((pair a d) (+ a d))))
 
-(define (example-with-ignores-and-as-patterns)
+(define (ignores-and-as-patterns thing)
   (case* thing
     ((pair _ (pair _ d :as subthing)) (+ d (car subthing)))
     (_ thing)))
+
+(define (arrow-clause thing)
+  (case* thing
+    ((null) 'null)
+    (pair => (lambda (a d) (* a d)))
+    (_ 'other)))
+
+(define (evaluate-dispatchee-just-once count)
+  (case* (begin (set! count (+ count 1))
+                count)
+    ((pair _ _) 'pair)
+    ((null) 'null)
+    ((boolean _ :as bool) bool)
+    ((number _ :as num) num)))

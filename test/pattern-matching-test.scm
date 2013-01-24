@@ -125,17 +125,18 @@
                       ((boolean _ :as bool) bool)
                       ((number _ :as num) num))))))
 
- (define-each-test
-   (same-speed test-pattern my-test-pattern (cons (cons 1 2) 3) 100000000)
-   (same-speed test-pattern my-test-pattern (cons 4 3) 100000000)
-   (same-speed test-pattern my-test-pattern 'foo 100000000)
+ (let ((repeat-count 100000000))
+  (define-each-test
+    (same-speed test-pattern my-test-pattern (cons (cons 1 2) 3) repeat-count)
+    (same-speed test-pattern my-test-pattern (cons 4 3) repeat-count)
+    (same-speed test-pattern my-test-pattern 'foo repeat-count)
 
-   (same-speed test-pattern2 my-test-pattern2 (cons (cons 1 2) 3) 100000000)
-   (same-speed test-pattern2 my-test-pattern2 (cons 4 3) 100000000)
-   (same-speed test-pattern2 my-test-pattern2 (cons 4 (cons 3 6)) 100000000)
-   (same-speed test-pattern2 my-test-pattern2 'foo 100000000)
+    (same-speed test-pattern2 my-test-pattern2 (cons (cons 1 2) 3) repeat-count)
+    (same-speed test-pattern2 my-test-pattern2 (cons 4 3) repeat-count)
+    (same-speed test-pattern2 my-test-pattern2 (cons 4 (cons 3 6)) repeat-count)
+    (same-speed test-pattern2 my-test-pattern2 'foo repeat-count)
 
-   (same-speed test-pattern3 my-test-pattern3 (cons 4 3) 100000000)
-   (same-speed test-pattern3 my-test-pattern3 '() 100000000)
-   (same-speed test-pattern3 my-test-pattern3 'foo 100000000)
-   ))
+    (same-speed test-pattern3 my-test-pattern3 (cons 4 3) repeat-count)
+    (same-speed test-pattern3 my-test-pattern3 '() repeat-count)
+    (same-speed test-pattern3 my-test-pattern3 'foo repeat-count)
+    )))

@@ -35,7 +35,7 @@
     (let ((expr-21 thing))
       (if (pair? expr-21)
           (begin
-            ;; TODO How can I get LIAR to flush this unused accessor?
+            ;; TODO How can I get sf to flush this unused accessor?
             ;; Should I?  It came from ignoring one of the pieces of
             ;; matching a pair.
             (car expr-21)
@@ -56,7 +56,10 @@
 
   (define (evaluate-dispatchee-just-once count)
     (let ((expr-30 (begin (set! count (1+ count)) count)))
-      (cond ((pair? expr-30) (cdr expr-30) (car expr-30) 'pair)
+      (cond ((pair? expr-30)
+             ;; Two more uneliminated accessors
+             (cdr expr-30) (car expr-30)
+             'pair)
             ((null? expr-30) 'null)
             (else
              (let ((bool expr-30))

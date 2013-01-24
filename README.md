@@ -120,7 +120,7 @@ constructed from the rest of the pattern together with the clause
 body, and a nullary procedure that will continue by trying the
 remaining clauses.  If the remaining elements of the pattern are all
 variables, then, if the object matches, the body will be evaluated in
-an environment where the match data is bound to those variables
+an environment where the destructuring results are bound to those variables
 (underscores are again treated as ignore directives).  If any of the
 elements of the pattern are nontrivial subpatterns, the corresponding
 part of the object will be matched recursively.  If the whole pattern

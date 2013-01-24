@@ -1,6 +1,6 @@
 ;;; This file is part of Pattern Case, a Schemely pattern matching
 ;;; case facility in MIT Scheme.
-;;; Copyright 2011 Alexey Radul.
+;;; Copyright 2013 Alexey Radul.
 ;;;
 ;;; Pattern Case is free software; you can redistribute it and/or
 ;;; modify it under the terms of the GNU Affero General Public License
@@ -16,10 +16,11 @@
 ;;; License along with Pattern Case; if not, see
 ;;; <http://www.gnu.org/licenses/>.
 
-(load-relative "../testing/load")
+(declare (usual-integrations))
+(declare (integrate-external "../pattern-matching"))
 
-(for-each
- (lambda (file)
-   (load-relative-compiled file))
- '("pattern-matching-test"
-   "integration-test"))
+(define (example-1)
+ (case* (cons (cons 1 2) 3)
+   ((pair (pair a d) dd) (+ a d dd))
+   ((pair a d) (+ a d))))
+

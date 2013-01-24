@@ -4,7 +4,7 @@ Introduction
 Pattern Case is a pattern matching and destructuring system designed
 to mesh well with the philosophy of Scheme.  Pattern Case comprises
 two main components: [matcher procedures](#matcher-procedures)
-and [the `case*` macro](#case).  They
+and the [`case*` macro](#case).  They
 conspire to make examples like this (contrived one) work:
 
 ```scheme
@@ -59,7 +59,7 @@ like this:
     (_ (error "Improper list"))))
 ```
 
-[The `case*` macro](#case) in this example macroexpands into a composition of the
+The [`case*` macro](#case) in this example macroexpands into a composition of the
 [matcher procedures](#matcher-procedures) `pair` and `null`:
 ```scheme
 (define (my-map f lst)

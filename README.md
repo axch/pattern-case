@@ -48,7 +48,9 @@ For example, one might use `case*` to define a simple `map` function
 like this:
 
 ```scheme
+; Inline matcher procedures for performance
 (declare (integrate-external "path/to/pattern-case"))
+
 (define (my-map f lst)
   (case* lst
     ((pair a d) (cons (f a) (my-map f d)))

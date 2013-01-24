@@ -18,10 +18,6 @@
 
 (declare (usual-integrations))
 
-;;; TODO Compare to comparable facilities in other languages
-;;; - destructuring-bind, bind in Common Lisp
-;;; - Clojure pattern matching
-;;; - ruby case
 ;;; TODO Implement pattern guards (issue 3)?
 ;;; TODO Is there a meaningful place for view patterns over this?
 ;;; TODO Implement known-length list patterns (issue 1)

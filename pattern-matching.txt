@@ -265,6 +265,20 @@ also supports an elaborate pattern language, with equality
 constraints, segment variables, and backtracking.  The same
 considerations as for Racket match apply.
 
+There are various libraries called bind or destructuring bind for
+Common Lisp.  I expect they do similar things, though I don't know
+whether they are organized the same way (perhaps lack of tail
+recursion impedes this style).  I also don't know how extensible they
+are, or whether the individual matchers have a life outside the macro.
+
+The built-in pattern matching in Clojure is similar in spirit as well,
+though I don't know whether it's extensible to user types.  In
+Clojure, that's a slightly odd question.
+
+Ruby's case syntax is extensible by implementing a generic function.
+I forget how it deals with pattern bindings (dynamically scoped magic
+variables?).
+
 Regular expressions are also a form of pattern matching language,
 operative over strings.
 

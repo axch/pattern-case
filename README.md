@@ -367,6 +367,20 @@ Scheme for this job.  `Case*` is actually a hygienic macro, so it does
 not necessarily require an escape into non-hygiene, but I didn't want
 to even think about writing it in `syntax-rules`.
 
+Unimplemented Features
+======================
+
+- Fixed length list patterns: `(case* ... ((list x y) ...))` could
+  mean `(case* ... ((pair x (pair y (null))) ...))`.
+- Pattern guards: application of arbitrary predicates which backtracks
+  into the matching process if they do not pass.
+- Integration with `define-structure`: Right now, to get pattern case
+  to work on user structure types, the user has to incant
+  `(define-algebraic-matcher foo foo? foo-x foo-y ...)`.  It would be
+  nice if this could be made automatic; there may also be performance
+  improvements available, because the inside of the destructurer could
+  use unsafe accessors (because it already performed the type test).
+
 Author
 ======
 

@@ -248,7 +248,7 @@ argument with the results of destructuring, as separate arguments.
 What destructuring a matcher performs is also defined by the
 particular matcher procedure -- in the case of `pair`, that would be
 the car and the cdr of the pair, and in the case of `null`, there are
-no destructing results (so the second argument to `null` must accept no
+no destructuring results (so the second argument to `null` must accept no
 arguments).  If the object does not match, the matcher procedure must
 call its third argument with no arguments.
 

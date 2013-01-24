@@ -187,7 +187,7 @@ allocator's problem anyway) is what you would have written without
 
 In this case, the gain is fairly small: the only thing `case*` gives
 you here is not having to write `car` and `cdr` in the `pair?` clause.
-But as your data structures get more complicated than just `cons`
+But as your data structures get more complicated than just cons
 lists, that savings starts to add up.
 
 Lambda-case*

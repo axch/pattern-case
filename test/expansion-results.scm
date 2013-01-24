@@ -21,5 +21,9 @@
     (let ((lose-18
            (lambda ()
              (let ((lose-19 (lambda () (error "Improper list"))))
+               ;; (2) Then to try the second clause, bind the
+               ;; remaining clauses into yet another lose procedure.
                (null expr-17 (lambda () '()) lose-19)))))
+      ;; (1) To try the first clause first, bind up the process of
+      ;; trying the other clauses into a lose procedure.
       (pair expr-17 (lambda (a d) (cons (f a) (my-map f d))) lose-18))))

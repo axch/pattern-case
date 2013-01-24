@@ -350,3 +350,19 @@ to read the philosophy of the system as well.
   - The `testing/` directory is a git submodule pointed at the [Test
     Manager](http://github.com/axch/test-manager/) framework that the
     test suite relies upon.
+
+Portability
+-----------
+
+The idea of organizing pattern matching in Scheme like this should be
+applicable to any Scheme system, with the caveat that some optimizer
+support is necessary to get decent performance.  You really don't want
+to make closures for the win and lose procedures that get passed to
+the matcher procedures when you don't have to.
+
+This actual implementation is just one giant explicit-renaming macro,
+so it will only port to Schemes that support explicit-renaming macros;
+which may not even be the right macro system to use in the target
+Scheme for this job.  `Case*` is actually a hygienic macro, so it does
+not necessarily require an escape into non-hygiene, but I didn't want
+to even think about writing it in `syntax-rules`.

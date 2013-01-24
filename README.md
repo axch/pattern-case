@@ -136,7 +136,54 @@ variable), and the match will proceed using the pattern without the
 the whole object will be available to the clause body in the variable
 that followed the `:as` token.
 
-TODO For example, foo expands into bar (mention procedure integration)
+Example
+-------
+
+For example, one might use `case*` to define a simple `map` function
+like this:
+
+```scheme
+(declare (integrate-external "path/to/pattern-case"))
+(define (my-map f lst)
+  (case* lst
+    ((pair a d) (cons (f a) (my-map f d)))
+    ((null) '())
+    (_ (error "Improper list"))))
+```
+
+The `case*` in this example expands into this composition of the
+matcher procedures `pair` and `null` and lambdas telling them what
+to do in each case:
+```scheme
+(define (my-map f lst)
+  (let ((expr-17 lst))
+    (let ((lose-18
+           (lambda ()
+             (let ((lose-19 (lambda () (error "Improper list"))))
+               ;; (2) Then to try the second clause, bind the
+               ;; remaining clauses into yet another lose procedure.
+               (null expr-17 (lambda () '()) lose-19)))))
+      ;; (1) To try the first clause first, bind up the process of
+      ;; trying the other clauses into a lose procedure.
+      (pair expr-17 (lambda (a d) (cons (f a) (my-map f d))) lose-18))))
+```
+
+Since `pair` and `null` are declared integrable, and since there is an
+appropriate `integrate-external` declaration in effect, MIT Scheme
+inlines `pair` and `null`, and all the anonymous lambdas, to produce
+this:
+```scheme
+(define (my-map f lst)
+  (let ((expr-39 lst))
+    (cond ((pair? expr-39)
+           (let ((a (car expr-39)) (d (cdr expr-39)))
+             (cons (f a) (my-map f d))))
+          ((null? expr-39) '())
+          (else (error "Improper list")))))
+```
+which, up to some extra temporary names (which are the register
+allocator's problem anyway) is what you would have written without
+`case*`.
 
 Lambda-case*
 ------------

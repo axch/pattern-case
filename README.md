@@ -58,9 +58,8 @@ like this:
     (_ (error "Improper list"))))
 ```
 
-The `case*` in this example expands into this composition of the
-matcher procedures `pair` and `null` and lambdas telling them what
-to do if they match or don't:
+The `case*` in this example macroexpands into a composition of the
+[matcher procedures](#matcher-procedures) `pair` and `null`:
 ```scheme
 (define (my-map f lst)
   (let ((expr-17 lst))
@@ -74,6 +73,9 @@ to do if they match or don't:
       ;; trying the other clauses into a lose procedure.
       (pair expr-17 (lambda (a d) (cons (f a) (my-map f d))) lose-18))))
 ```
+Each matcher takes the object to match and destructure, a procedure to
+call with the results of destructuring if the match is successful, and
+a procedure to call with no arguments if the match fails.
 
 Since `pair` and `null` are declared integrable, and since there is an
 appropriate `integrate-external` declaration in effect, MIT Scheme

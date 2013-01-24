@@ -256,12 +256,14 @@ match serve two distinct purposes, and as such can happily coexist in
 the same programming language.  It might be nice if they were
 compatible and/or interoperable; see Issue 8 below.
 
-Sussman teaches a pattern matching system in his Adventures class.
-This system is designed with an eye toward fitting into a rule-based
+Professor Gerald Jay Sussman at MIT teaches a pattern matching system
+in his Adventures in Advanced Symbolic Programming class.  That system
+is designed with an eye toward fitting into a rule-based
 term-rewriting system, which in turn is designed with an eye toward
-algebraic simplification.  Consequently, this pattern matching system
-also supports an elaborate pattern language, on a par with Racket
-match.  The same considerations apply.
+algebraic simplification.  Consequently, the pattern matching system
+also supports an elaborate pattern language, with equality
+constraints, segment variables, and backtracking.  The same
+considerations as for Racket match apply.
 
 Regular expressions are also a form of pattern matching language,
 operative over strings.
@@ -412,8 +414,8 @@ etc.  As mentioned above, it would also be advisable for case* to
 integrate with the record system.
 
 8) Interoperation with other pattern matching facilities.  One idea
-for interoperation with a pattern matching system in Sussman's style
-might be a combinator of the form
+for interoperation with a pattern matching system in Professor
+Sussman's style might be a combinator of the form
 
 (define (matches?* pattern)
   (let ((pattern-combinator (pattern-compile pattern)))
@@ -423,10 +425,14 @@ might be a combinator of the form
           (apply win (all-values dict)))
         lose))))
 
+which accepts a pattern in the more elaborate pattern language and
+matches the datum against it, winning (with the pieces picked out by
+the more elaborate pattern) if it does and losing if it doesn't.
+
 If the win continuation has a guard, it would be nice if it
-backtracked into the fail continuation from the matcher rather than
-directly the lose continuation of the case*.  It may also be nice if
-the case* macro recognized patterns offered by the matches?*
+backtracked into the fail continuation from the more elaborate matcher
+rather than directly to the next case of the case*.  It may also be
+nice if the case* macro recognized patterns offered by the matches?*
 combinator and pulled some hack to use the names of the pattern
 variables instead of asking the user to name those values again for
 the case*.  This is starting to look like case* serving as a common

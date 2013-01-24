@@ -73,5 +73,12 @@
                                (object-type? 58 operand)
                                (object-type? 6 operand)
                                (object-type? 60 operand)))
-                         num)))))))))
+                         num))))))))
 
+  (define (my-map f lst)
+    (let ((expr-39 lst))
+      (cond ((pair? expr-39)
+             (let ((a (car expr-39)) (d (cdr expr-39)))
+               (cons (f a) (my-map f d))))
+            ((null? expr-39) '())
+            (else (error "Improper list"))))))

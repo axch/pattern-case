@@ -42,3 +42,9 @@
     ((null) 'null)
     ((boolean _ :as bool) bool)
     ((number _ :as num) num)))
+
+(define (my-map f lst)
+  (case* lst
+    ((pair a d) (cons (f a) (my-map f d)))
+    ((null) '())
+    (_ (error "Improper list"))))

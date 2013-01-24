@@ -16,17 +16,33 @@
 ;;; License along with Pattern Case; if not, see
 ;;; <http://www.gnu.org/licenses/>.
 
-(define (example-1)
-  (let ((expr-17 (cons (cons 1 2) 3)))
-    (cond ((pair? expr-17)
-           (let ((part-19 (car expr-17)) (dd (cdr expr-17)))
-             (cond ((pair? part-19)
-                    (let ((a (car part-19)) (d (cdr part-19)))
-                      (&+ a (&+ d dd))))
-                   ((pair? expr-17)
-                    (let ((a (car expr-17)) (d (cdr expr-17)))
-                      (&+ a d))))))
-          ((pair? expr-17)
-           (let ((a (car expr-17)) (d (cdr expr-17)))
-             (&+ a d))))))
+(begin
+  (define (example-with-pairs)
+    (let ((expr-17 (cons (cons 1 2) 3)))
+      (cond ((pair? expr-17)
+             (let ((part-19 (car expr-17)) (dd (cdr expr-17)))
+               (cond ((pair? part-19)
+                      (let ((a (car part-19)) (d (cdr part-19)))
+                        (&+ a (&+ d dd))))
+                     ((pair? expr-17)
+                      (let ((a (car expr-17)) (d (cdr expr-17)))
+                        (&+ a d))))))
+            ((pair? expr-17)
+             (let ((a (car expr-17)) (d (cdr expr-17)))
+               (&+ a d))))))
+
+  (define (example-with-ignores-and-as-patterns)
+    (let ((expr-21 thing))
+      (if (pair? expr-21)
+          (begin
+            ;; TODO How can I get LIAR to flush this unused accessor?
+            ;; Should I?  It came from ignoring one of the pieces of
+            ;; matching a pair.
+            (car expr-21)
+            (let ((subthing (cdr expr-21)))
+              (if (pair? subthing)
+                  (begin (car subthing) ; Ditto
+                         (let ((d (cdr subthing))) (&+ d (car subthing))))
+                  thing)))
+          thing))))
 

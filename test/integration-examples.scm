@@ -19,8 +19,12 @@
 (declare (usual-integrations))
 (declare (integrate-external "../pattern-matching"))
 
-(define (example-1)
+(define (example-with-pairs)
  (case* (cons (cons 1 2) 3)
    ((pair (pair a d) dd) (+ a d dd))
    ((pair a d) (+ a d))))
 
+(define (example-with-ignores-and-as-patterns)
+  (case* thing
+    ((pair _ (pair _ d :as subthing)) (+ d (car subthing)))
+    (_ thing)))

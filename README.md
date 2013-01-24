@@ -238,7 +238,12 @@ The provided matcher procedures are:
 - `number` matches Scheme numbers and "destructures" them into themselves
 
 You are free and encouraged to write your own.  In fact, that was the
-point.  A matcher procedure must accept three arguments: the object to
+point.
+
+Defining your own matcher procedures
+------------------------------------
+
+A matcher procedure must accept three arguments: the object to
 match, a procedure to call if it matches, and a procedure to call if
 it does not.  The meaning of matching depends on the particular
 matcher procedure; in the case of `pair` that would be being a pair,
@@ -287,17 +292,21 @@ wanted, choosing keys on the fly:
   ...) ; There was neither "foo" nor "bar"
 ```
 
-`(define-algebraic-matcher name predicate accessor ...)` For the
-fairly common case when your matcher procedure tests the object with
-an existing predicate and destructures it by applying several existing
-accessors.  This defines a matcher procedure named `name` that tests
-with `predicate` and produces destructuring results by applying each
-of the `accessor`s.  `pair` could have been defined with
-`(define-algebraic-matcher pair pair? car cdr)`.  There can be zero
-accessors; `null` could have been defined with
-`(define-algebraic-matcher null null?)`.
+Help for defining your own matcher procedures
+---------------------------------------------
 
-`(id-project thing)` Returns `thing`.  Useful as the "accessor" for a
-matcher (like `boolean`) that returns the object being matched itself,
-without actually destructuring it.  `boolean` could have been defined
-with `(define-algebraic-matcher boolean boolean? id-project)`.
+- `(define-algebraic-matcher name predicate accessor ...)` For the
+  fairly common case when your matcher procedure tests the object with
+  an existing predicate and destructures it by applying several
+  existing accessors.  This defines a matcher procedure named `name`
+  that tests with `predicate` and produces destructuring results by
+  applying each of the `accessor`s.  `pair` could have been defined
+  with `(define-algebraic-matcher pair pair? car cdr)`.  There can be
+  zero accessors; `null` could have been defined with
+  `(define-algebraic-matcher null null?)`.
+
+- `(id-project thing)` Returns `thing`.  Useful as the "accessor" for
+  a matcher (like `boolean`) that returns the object being matched
+  itself, without actually destructuring it.  `boolean` could have
+  been defined with `(define-algebraic-matcher boolean boolean?
+  id-project)`.

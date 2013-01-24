@@ -346,23 +346,24 @@ type testers.  Any suggestion on what that naming convention should
 be?  For example, Haskell spells pair?* as a right-associative infix :
 operator.
 
-6) Flow analysis.  Working on VLAD was what made me actually think
-this through and write it up.  VLAD offers this facility an important
-advantage, which is that it would automatically integrate all the
-destructurers and pay nothing to make closures nobody needs.  More
-important, this facility offers VLAD an important advantage: one can
-define real?* as a primitive, and tell the flow analysis that it will
-only ever call its success continuation with a real number.  This
-gives me a way to get rid of union types -- if I check that something
-is real before entering a hairy loop, I can unbox it once on entry and
-let the interior of the loop operate on it unboxed.  The same
-ability is very difficult to reproduce with the traditional real?,
-because to do a good job of that the analysis has to be able to
-integrate information about an object from more places than just its
-binding site, and propagate this information, and it all gets very
-hairy.  But real?* neatly sidesteps this problem because it introduces
-another binding site!  And of course, real? can be defined in terms of
-real?*:
+6) Flow analysis.  Working with the flow analyses in VLAD [1] was what
+made me actually think this through and write it up.  VLAD offers this
+facility an important advantage, which is that it would automatically
+integrate all the destructurers and pay nothing to make closures
+nobody needs.  More important, this facility offers VLAD an important
+advantage: one can define real?* as a primitive, and tell the flow
+analysis that it will only ever call its success continuation with a
+real number.  This gives a way to get rid of union types -- if the
+programmer checks that something is real before entering a hairy loop,
+a VLAD-like flow analysis (or probably a positive supercompiler) can
+unbox it once on entry and let the interior of the loop operate on it
+unboxed.  The same ability is very difficult to reproduce with the
+traditional real?, because to do a good job of that the analysis has
+to be able to integrate information about an object from more places
+than just its binding site, and propagate this information, and it all
+gets very hairy.  But real?* neatly sidesteps this problem because it
+introduces another binding site!  And of course, real? can be defined
+in terms of real?*:
 
 (define (real? x) (real?* x (lambda (x) #t) (lambda () #f)))
 
@@ -372,13 +373,14 @@ union again.
 
 6b) Speaking of flow analysis, it may be a good idea to have the
 destructurers pass the object to their failure continuation if it
-didn't match.  This lets the analysis remove a union member.  However,
-that only works that way without guards or nested patterns, and
-confuses the interface to defining new destructurers.  On the other
-hand, a polyvariant flow analysis would split different call sites of
-the failure continuation by different union information about the
-item, which might amount to automatically compiling the entire case*
-expression into a discrimination net of the tests it needs to perform.
+didn't match.  This lets the analysis (or a negative supercompiler)
+remove a union member.  However, that only works that way without
+guards or nested patterns, and confuses the interface to defining new
+destructurers.  On the other hand, a polyvariant flow analysis would
+split different call sites of the failure continuation by different
+union information about the item, which might amount to automatically
+compiling the entire case* expression into a discrimination net of the
+tests it needs to perform.
 
 Also, passing the failed object to the lose continuation would allow
 tester-combinators like these:
@@ -436,3 +438,13 @@ framework reasonably nicely as well, if one defines a suitable
 combinator.  The same considerations apply as for matches?* above; and
 also that regular expression groups have traditional names, which
 case* could automatically provide.
+
+
+References
+
+[1] Jeffrey Siskind and Barak Pearlmutter, "Using Polyvariant
+Union-Free Flow Analysis to Compile a Higher-Order Functional
+Programming Language with a First-Class Derivative Operator to
+Efficient Fortran-like Code."  Purdue University ECE Technical
+Report, 2008.  http://docs.lib.purdue.edu/ecetr/367
+Enclosed as vlad-tech-report.pdf

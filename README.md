@@ -190,43 +190,6 @@ you here is not having to write `car` and `cdr` in the `pair?` clause.
 But as your data structures get more complicated than just cons
 lists, that savings starts to add up.
 
-Lambda-case*
-------------
-
-The `lambda-case*` macro returns an anonymous unary procedure that
-operates by `case*` on its one argument.  To wit,
-
-```scheme
-(lambda-case* <clause> ...)
-```
-becomes
-```scheme
-(lambda (thing)
-  (case* thing
-    <clause ...))
-```
-
-Define-case*
-------------
-
-The `define-case*` macro defines a unary procedure that operates by
-`case*` on its one argument.  To wit,
-
-```scheme
-(define-case* <name>
-  <clause> ...)
-```
-becomes
-```scheme
-(define (<name> thing)
-  (case* thing
-    <clause> ...))
-```
-which is functionally the same as
-```scheme
-(define <name> (lambda-case* <clause> ...))
-```
-
 Matcher Procedures
 ==================
 
@@ -310,3 +273,43 @@ Help for defining your own matcher procedures
   itself, without actually destructuring it.  `boolean` could have
   been defined with `(define-algebraic-matcher boolean boolean?
   id-project)`.
+
+Variants
+========
+
+Lambda-case*
+------------
+
+The `lambda-case*` macro returns an anonymous unary procedure that
+operates by `case*` on its one argument.  To wit,
+
+```scheme
+(lambda-case* <clause> ...)
+```
+becomes
+```scheme
+(lambda (thing)
+  (case* thing
+    <clause ...))
+```
+
+Define-case*
+------------
+
+The `define-case*` macro defines a unary procedure that operates by
+`case*` on its one argument.  To wit,
+
+```scheme
+(define-case* <name>
+  <clause> ...)
+```
+becomes
+```scheme
+(define (<name> thing)
+  (case* thing
+    <clause> ...))
+```
+which is functionally the same as
+```scheme
+(define <name> (lambda-case* <clause> ...))
+```

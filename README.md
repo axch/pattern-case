@@ -153,7 +153,7 @@ like this:
 
 The `case*` in this example expands into this composition of the
 matcher procedures `pair` and `null` and lambdas telling them what
-to do in each case:
+to do if they match or don't:
 ```scheme
 (define (my-map f lst)
   (let ((expr-17 lst))
@@ -174,11 +174,11 @@ inlines `pair` and `null`, and all the anonymous lambdas, to produce
 this:
 ```scheme
 (define (my-map f lst)
-  (let ((expr-39 lst))
-    (cond ((pair? expr-39)
-           (let ((a (car expr-39)) (d (cdr expr-39)))
+  (let ((expr-17 lst))
+    (cond ((pair? expr-17)
+           (let ((a (car expr-17)) (d (cdr expr-17)))
              (cons (f a) (my-map f d))))
-          ((null? expr-39) '())
+          ((null? expr-17) '())
           (else (error "Improper list")))))
 ```
 which, up to some extra temporary names (which are the register

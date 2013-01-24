@@ -366,3 +366,29 @@ which may not even be the right macro system to use in the target
 Scheme for this job.  `Case*` is actually a hygienic macro, so it does
 not necessarily require an escape into non-hygiene, but I didn't want
 to even think about writing it in `syntax-rules`.
+
+Author
+======
+
+Alexey Radul, <axch@mit.edu>
+
+License
+=======
+
+This file is part of Pattern Case, a Schemely pattern matching case
+facility in MIT Scheme.
+Copyright 2013 Alexey Radul.
+
+Pattern Case is free software; you can redistribute it and/or
+modify it under the terms of the GNU Affero General Public License
+as published by the Free Software Foundation; either version 3 of
+the License, or (at your option) any later version.
+
+Pattern Case is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public
+License along with Pattern Case; if not, see
+<http://www.gnu.org/licenses/>.

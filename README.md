@@ -80,8 +80,7 @@ The `case*` macro has the following syntax:
           | (<matcher> <pattern> ...)
           | (<matcher> <pattern> ... :as <var>)
 
-<matcher>, <receiver>, <expr>, and <body-form> are Scheme
-expressions.
+<matcher>, <receiver>, <expr>, and <body-form> are Scheme expressions.
 ```
 
 The semantics of a `case*` form are as follows.  First, the `<expr>`
@@ -100,14 +99,14 @@ token `=>` in the second position in the clause.  The arrow
 clauses are simpler so I describe them first.
 
 If the clause is an arrow clause, both expressions in the clause are
-evaluated.  The first is expected to return a matcher procedure, as
-[below](#matcher-procedures), and the second is expected to return a
+evaluated.  The first is expected to return a
+[matcher procedure](#matcher-procedures), and the second is expected to return a
 procedure.  The matcher procedure is then called on the object being
 matched against, the procedure returned by the receiver form, and a
 nullary procedure that, if invoked, will continue matching later
 clauses.  The effect is that if the object matches the matcher, the
-`case*` form will reduce to a call to the receiver with the match data
-as defined by the matcher; otherwise evaluation will continue.
+`case*` form will reduce to a call to the receiver with the destructuring results
+as defined by the matcher; otherwise `case*` will try the next clause.
 
 If the clause is a pattern clause, the behavior depends on the
 pattern.  If the pattern is a variable, it will automatically match,

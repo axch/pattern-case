@@ -31,6 +31,17 @@
 (in-test-group
  integration
 
+ (define-test (expansion-examples-test)
+   ;; Reset the uninterned symbol counter to something predictable
+   ;; (otherwise the test results would vary depending on whether,
+   ;; e.g., the source was autocompiled, because the compiler
+   ;; generates uninterned symbols internally).
+   (generate-uninterned-symbol 16)
+   (fluid-let ((sf/default-syntax-table compilation-env))
+     (sf (merge-pathnames "expansion-examples" path)))
+   (let ((result (pp->list (fasload (merge-pathnames "expansion-examples" path)))))
+     (check (equal? result (pp->list (with-input-from-file (merge-pathnames "expansion-results.scm" path) read))))))
+
  (define-test (integration-examples-test)
    ;; Reset the uninterned symbol counter to something predictable
    ;; (otherwise the test results would vary depending on whether,

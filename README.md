@@ -27,8 +27,9 @@ follows:
 
 - Interface: matchers pass the pieces of the object to the win
   continuation, and nothing to the lose continuation.  Since MIT
-  Scheme does not do flow analysis, no measures to make it more
-  effective are taken.
+  Scheme does not do flow analysis, and certainly doesn't propagate
+  negative information, I did not take that measure to improve its
+  precision.
 
 - Naming convention: matchers are named after the type name, with
   no typographic markers.  What is called `pair?*' in the text is

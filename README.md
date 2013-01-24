@@ -311,3 +311,42 @@ which is functionally the same as
 ```scheme
 (define <name> (lambda-case* <clause> ...))
 ```
+
+Developer Documentation
+=======================
+
+The developer documentation is the source code and the commentary
+therein.  There's only one interesting code file, but you might want
+to read the philosophy of the system as well.
+
+- Interesting stuff
+
+  - `pattern-matching.txt`: An essay on pattern matching in Scheme, of
+    which this code is an implementation.
+  - `pattern-case.scm`: The implementation.
+
+- Boring support
+
+  - `auto-compilation.scm`: Automatically invoke the MIT Scheme
+    compiler, if necessary and possible, to (re)compile files before
+    loading them.  This has nothing to do with Pattern Case, but I
+    figured copying it in was easier than making an external
+    dependency.
+  - `load.scm`: Orchestrate the loading sequence.  Nothing interesting
+    to see here.
+  - `Makefile`: Run the test suite.  Note that there is no "build" as
+    such; source is automatically recompiled at loading time as
+    needed.
+  - `LICENSE`: The AGPLv3, under which Pattern Case is licensed.
+
+- Test suite
+
+  - Run it with `make test`.
+  - The `test/` directory contains the actual test suite.
+  - `test/*-examples.scm` are example uses of `case*` that are
+    automatically checked for compiling to the right result.
+  - `test/*-results.scm` are expected results for compiling `case*`
+    examples.
+  - The `testing/` directory is a git submodule pointed at the [Test
+    Manager](http://github.com/axch/test-manager/) framework that the
+    test suite relies upon.
